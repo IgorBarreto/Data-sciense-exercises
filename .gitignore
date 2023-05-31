@@ -10,7 +10,7 @@ docker-compose.yml.copy
 */*.html
 */*.htm
 **/**.Identifier
-
+Arquivos/
 #########################################
 
 # Django #
