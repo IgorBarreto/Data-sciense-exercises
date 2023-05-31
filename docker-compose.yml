@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  database:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres # The PostgreSQL password (useful to connect to the database)
+      POSTGRES_PASSWORD: "password" # The PostgreSQL password (useful to connect to the database)
+      POSTGRES_DB: "mydb" # The PostgreSQL password (useful to connect to the database)
+    volumes:
+      - ./db-data:/var/lib/postgresql/data/
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - ./data-redis:/data
