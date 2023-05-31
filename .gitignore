@@ -2,13 +2,13 @@ db-data/
 data-redis/
 redis/
 docker-compose.yml.copy
-*/.venv/
-!*/media/projeto06/.gitkeep
+**/.venv/
 **/media/
-*/staticfiles/
-*/*.pdf
-*/*.html
-*/*.htm
+**/media/projeto06/.gitkeep
+**/staticfiles/
+**/*.pdf
+**/*.html
+**/*.htm
 **/**.Identifier
 Arquivos/
 #########################################
@@ -100,8 +100,8 @@ s**/dist/
 
 # Visual Studio Code # 
 **/.vscode/* 
-**/!.vscode/settings.json 
-**/!.vscode/tasks.json 
-**/!.vscode/launch.json 
-**/!.vscode/extensions.json 
-**/.history
+!**/.vscode/settings.json 
+!**/.vscode/tasks.json 
+!**/.vscode/launch.json 
+!**/.vscode/extensions.json 
+!**/.history
