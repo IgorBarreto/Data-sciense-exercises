@@ -1,6 +1,8 @@
 # Data-sciense-exercises
 
-## Este projeto tem o objetivo de desenvolver uma API utilizando o Django, Django Restframework utilizando conhecimentos de SQL para resolver exercicios de análise de dados.
+## Descrição
+
+Este projeto tem o objetivo de desenvolver uma API utilizando o Django, Django Restframework utilizando conhecimentos de SQL para resolver exercicios de análise de dados.
 
 PROJETOS
 
