@@ -126,7 +126,7 @@ class Questao15Serializer(serializers.Serializer):
 
 class Questao16Serializer(serializers.Serializer):
     order_id = serializers.IntegerField()
-    amount_average = serializers.DecimalField(max_digits=10, decimal_places=2)
+    total = serializers.DecimalField(max_digits=10, decimal_places=2)
     state = serializers.CharField()
     segment = serializers.CharField()
     channel = serializers.CharField()
@@ -134,15 +134,18 @@ class Questao16Serializer(serializers.Serializer):
 
 class Questao17Serializer(serializers.Serializer):
     order_id = serializers.IntegerField()
+    hub_state = serializers.CharField()
+    store_segment = serializers.CharField()
+    channel_type = serializers.CharField()
     amount_average = serializers.DecimalField(max_digits=10, decimal_places=2)
-    state = serializers.CharField()
-    segment = serializers.CharField()
-    channel = serializers.CharField()
 
 
 class Questao18Serializer(serializers.Serializer):
     order_id = serializers.IntegerField()
-    state = serializers.CharField()
+    hub_state = serializers.CharField()
+    store_segment = serializers.CharField()
+    channel_type = serializers.CharField()
+    amount_average = serializers.DecimalField(max_digits=10, decimal_places=2)
 
 
 class Questao19Serializer(serializers.Serializer):

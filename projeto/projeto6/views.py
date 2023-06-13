@@ -541,8 +541,8 @@ class Questao16APIView(generics.ListAPIView):
     serializer_class = Questao16Serializer
 
     def list(self, request, *args, **kwargs):
-        QUESTAO = """ Qual estado do hub (hub_state), segmento da loja (store_segment) e tipo de canal(channel_type) teve média de valor de pedido (order_amount) maior que 450? """  # noqa
-        SQL = """ SELECT 1 AS order_id,	AVG(o.order_amount) AS amount_average, h.hub_state AS state, s.store_segment AS segment, c.channel_type AS channel FROM public."p06Orders" AS o INNER JOIN public."p06Stores" AS s ON s.store_id =o.store_id INNER JOIN public."p06Hubs" AS h ON h.hub_id = s.hub_id INNER JOIN public."p06Channels" AS c ON c.channel_id = o.channel_id GROUP BY h.hub_state, s.store_segment, c.channel_type ORDER BY AVG(order_amount) """  # noqa
+        QUESTAO = """Qual o valor total de pedido (order_amount) por estado do hub (hub_state), segmento da loja (store_segment) e tipo de  canal (channel_type)? Demonstre os totais intermediários e formate o resultado."""  # noqa
+        SQL = """SELECT 1 as order_id, H.hub_state state,	S.store_segment as segment,	C.channel_type as channel,	SUM(O.order_amount) as total FROM public."p06Orders" AS O INNER JOIN public."p06Stores" AS S on O.store_id = S.store_id INNER JOIN public."p06Hubs" AS H on S.hub_id = H.hub_id INNER JOIN public."p06Channels" AS C on C.channel_id = O.channel_id GROUP BY ROLLUP (S.store_segment,H.hub_state,C.channel_type) """  # noqa
         results = Order.objects.raw(SQL)
         serializer = self.get_serializer(
             instance=results,
@@ -562,8 +562,8 @@ class Questao17APIView(generics.ListAPIView):
     serializer_class = Questao17Serializer
 
     def list(self, request, *args, **kwargs):
-        QUESTAO = """ Qual o valor total de pedido (order_amount) por estado do hub (hub_state),segmento da loja (store_segment) e tipo de  canal (channel_type)? Demonstre os totais intermediários e formate o resultado. """  # noqa
-        SQL = """ SELECT 1 AS order_id, AVG(order_amount) amount_average,h.hub_state AS state, s.store_segment AS segment, c.channel_type AS channel FROM public."p06Orders" AS o INNER JOIN public."p06Stores" AS s ON s.store_id =o.store_id INNER JOIN public."p06Hubs" AS h ON h.hub_id = s.hub_id INNER JOIN public."p06Channels" AS c ON c.channel_id = o.channel_id GROUP BY ROLLUP (h.hub_state,s.store_segment, c.channel_type)  """  # noqa
+        QUESTAO = """Quando  o  pedido  era  do  Hub  do  Rio  de  Janeiro  (hub_state),  segmento  de  loja 'FOOD',  tipo  de  canal  Marketplace  e  foi  cancelado,  qual  foi  a  média  de  valor do  pedido (order_amount)?"""  # noqa
+        SQL = """SELECT 1 as order_id, H.hub_state AS hub_state, S.store_segment AS store_segment, C.channel_type AS channel_type,	AVG(O.order_amount) as amount_average FROM public."p06Orders" AS O INNER JOIN public."p06Stores" AS S ON O.store_id = S.store_id INNER JOIN public."p06Hubs" AS H ON S.hub_id = H.hub_id INNER JOIN public."p06Channels" AS C ON C.channel_id = O.channel_id WHERE H.hub_state ='RJ' AND	S.store_segment = 'FOOD' AND C.channel_type ='MARKETPLACE' AND O.order_stATUS='CANCELED' GROUP BY H.hub_state , S.store_segment ,C.channel_type """  # noqa
         results = Order.objects.raw(SQL)
         serializer = self.get_serializer(
             instance=results,
@@ -584,7 +584,7 @@ class Questao18APIView(generics.ListAPIView):
 
     def list(self, request, *args, **kwargs):
         QUESTAO = """ Quando o pedido era do segmento de loja 'GOOD', tipo de canal Marketplace e foi cancelado, algum hub_state teve total de valor do pedido superior a 100.000? """  # noqa
-        SQL = """ SELECT 1 AS order_id, h.hub_state AS state FROM public."p06Orders" AS o INNER JOIN public."p06Stores" AS s ON s.store_id =o.store_id INNER JOIN public."p06Hubs" AS h ON h.hub_id = s.hub_id INNER JOIN public."p06Channels" AS c ON c.channel_id = o.channel_id WHERE s.store_segment = 'GOOD' AND c.channel_type ='MARKETPLACE' GROUP BY h.hub_state, s.store_segment, c.channel_type HAVING AVG(o.order_amount) >100000 """  # noqa
+        SQL = """ SELECT 1 as order_id, H.hub_state AS hub_state, S.store_segment AS store_segment, 	C.channel_type AS channel_type, SUM(O.order_amount) as amount_average FROM public."p06Orders" AS O INNER JOIN public."p06Stores" AS S ON O.store_id = S.store_id INNER JOIN public."p06Hubs" AS H ON S.hub_id = H.hub_id INNER JOIN public."p06Channels" AS C ON C.channel_id = O.channel_id WHERE S.store_segment = 'GOOD' AND C.channel_type ='MARKETPLACE' AND O.order_stATUS='CANCELED' GROUP BY H.hub_state , S.store_segment ,C.channel_type HAVING SUM(O.order_amount) >100000 """  # noqa
         results = Order.objects.raw(SQL)
         serializer = self.get_serializer(
             instance=results,
